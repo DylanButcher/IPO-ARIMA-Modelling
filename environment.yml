@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - fbprophet=0.7.1=py38h7ae7562_0
+  - fbprophet>=0.7.1
   - pip:
     - convertdate=2.3.2
     - pickleshare==0.7.5
