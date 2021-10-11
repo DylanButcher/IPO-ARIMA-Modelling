@@ -5,6 +5,7 @@ channels:
 dependencies:
   - fbprophet>=0.7.1
   - pip:
+    - openpyxl==3.0.7
     - pickleshare==0.7.5
     - yfinance==0.1.63
     - pandocfilters==1.4.3
