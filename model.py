@@ -235,10 +235,6 @@ fig_compare.layout.update(title_text="Comparison Graphs", xaxis_rangeslider_visi
 st.plotly_chart(fig_compare)
 show_df("Differentials", diffs)
 
-# get prediction length values so sum = 365 - DONE
-# do the same with fbprohet
-# collect 2000 dot com tickers and get their 365 movement - DONE
-# streamlit the bitch - DONE
 
 col_left, col_right = st.beta_columns(2)
 with col_left:
