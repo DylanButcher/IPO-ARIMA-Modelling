@@ -24,7 +24,7 @@ df_2020_sum = pd.DataFrame()
 fig_compare = go.Figure()
 
 
-@st.cache
+
 def insert_offer_price(df, offer_price, start_date):
     day_before = start_date + timedelta(days=-1)
     new_row = pd.DataFrame({"Date": day_before, "Close": offer_price}, index=[0])
