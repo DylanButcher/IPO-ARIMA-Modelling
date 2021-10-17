@@ -24,7 +24,6 @@ df_2020_sum = pd.DataFrame()
 fig_compare = go.Figure()
 
 
-
 def insert_offer_price(df, offer_price, start_date):
     day_before = start_date + timedelta(days=-1)
     new_row = pd.DataFrame({"Date": day_before, "Close": offer_price}, index=[0])
@@ -59,7 +58,6 @@ def show_df(data_name, df):
 
 def arima_plot_and_predict(values, data, ticker, offer_price, start_date):
     end_date = get_end_date(len(data))
-    print(len(data))
     predictions = ARIMA(data, order=(int(values[0]), int(values[1]), int(values[2]))).fit().predict(start=len(data) + 1,
                                                                                                   end=365)
     df = pd.DataFrame({"Date": (pd.bdate_range(start=date.today(), end=end_date, freq="B")), "Close": predictions})
@@ -68,7 +66,6 @@ def arima_plot_and_predict(values, data, ticker, offer_price, start_date):
     data = insert_offer_price(data, float(offer_price), start_date)
     df = pd.concat([data, df])
     arima_sum[ticker] = df["Close"][:365]
-    print(arima_sum[ticker])
     return df
 
 
@@ -88,7 +85,6 @@ def fbprophet_plot_and_predict(data, ticker, offer_price, start_date):
     data = data.rename(columns={"Close": "yhat", "Date": "ds"})
     df = pd.concat([data, forecast])  # why is th is here - you tell me
     fbp_sum[ticker] = df["yhat"]
-    print(fbp_sum[ticker])
     return forecast
 
 
@@ -111,7 +107,6 @@ def forecast_2000():
             end_date = start_date + pd.tseries.offsets.BDay(400)
             data = yf.download(ticker, start_date, end_date)["Close"].to_frame()
             if ((len(data) >= 365)):
-                print(len(data))
                 data.reset_index(inplace=True)
                 data = insert_offer_price(data, df_2000["Price"][x], start_date)[:365]
                 fig_2000.add_trace(go.Scatter(x=[x for x in range(365)], y=data["Close"], name=ticker))
@@ -128,10 +123,8 @@ def forecast_2020():
         st.header("2020 Stock Data")
         progress_2020 = st.progress(0)
         for x in range(len(df_2020)):
-            print("----------------------------------")
             ticker = df_2020["Ticker"][x]
             start_date = get_start_date(df_2020["Start"][x])
-            print(ticker)
             data = yf.download(ticker, start_date, datetime.today())["Close"]
             if len(data) < 365 and (forecast_arima_2020 or forecast_fbp_2020):
                 if ticker in arma_dict:
@@ -254,5 +247,3 @@ with col_left:
 with col_right:
     if(forecast_arima_2020):
         plottings(list_365, arima_sum["sum"], "2020 Fund (ARIMA)", "2020", arima_sum[["days", "sum"]])
-
-print(time.time() - start)
